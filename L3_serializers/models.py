@@ -6,7 +6,6 @@ from uuid import uuid4
 # Create your models here.
 
 class Project(models.Model):
-    # ADD UID!!!!!!!!!
     uid = models.UUIDField(primary_key=True, default=uuid4)
     name = models.CharField(max_length=24)
     link_to_repo = models.URLField(max_length=100, blank=True,)
