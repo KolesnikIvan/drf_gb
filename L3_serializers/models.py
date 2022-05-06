@@ -9,18 +9,18 @@ class Project(models.Model):
     uid = models.UUIDField(primary_key=True, default=uuid4)
     name = models.CharField(max_length=24)
     link_to_repo = models.URLField(max_length=100, blank=True,)
-    users = models.ManyToManyField(MyUser)
+    users = models.ManyToManyField(MyUser, blank=True, null=True)
 
     def __str__(self):
-        print(self.uid, self.name)
+        return '|'.join((self.uid, self.name))
 
 class Todo(models.Model):
     uid = models.UUIDField(primary_key=True, default=uuid4)
-    project = models.OneToOneField(Project, on_delete=models.SET_NULL)
+    project = models.OneToOneField(Project, null=True, on_delete=models.SET_NULL)
     text = models.TextField()
     created_on = models.DateField(auto_now_add=True)
     updated_on = models.DateField(auto_now=True)
-    author = models.OneToOneField(MyUser, on_delete=models.SET_NULL)
+    author = models.OneToOneField(MyUser, null=True, on_delete=models.SET_NULL)
 
     def __str__(self):
-        print(self.uid, self.project, self.text)
+        return '|'.join((self.uid, self.project.name, self.text))

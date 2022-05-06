@@ -13,4 +13,4 @@ class ProjectViewSet(ModelViewSet):
 
 class TodoViewSet(ModelViewSet):
     queryset = Todo.objects.all()
-    serilizer_class = TodoSerializer
+    serializer_class = TodoSerializer
