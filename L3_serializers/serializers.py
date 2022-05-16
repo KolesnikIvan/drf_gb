@@ -15,7 +15,7 @@ class ProjectSerializer(ModelSerializer):
         # extra_kwargs = {'url': {'view_name': 'project-detail', 'lookup_field': 'pk'}}
 
 
-class TodoSerializer(HyperlinkedModelSerializer):
+class TodoSerializer(ModelSerializer):
     author = MyUserModelSerializer()
 
     class Meta:

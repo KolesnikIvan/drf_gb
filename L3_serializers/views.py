@@ -39,14 +39,11 @@ class ProjectViewSetLes4(mixins.CreateModelMixin,
             return super().get_queryset()
 
 class TodoViewSetLes1(ModelViewSet):
-     queryset = Todo.objects.all()
-     serializer_class = TodoSerializer
+    queryset = Todo.objects.all()
+    serializer_class = TodoSerializer
 
-class TodoViewSetLes4(mixins.CreateModelMixin,
-                mixins.RetrieveModelMixin,
-                mixins.UpdateModelMixin,
-                mixins.DestroyModelMixin,
-                viewsets.GenericViewSet):
+
+class TodoViewSetLes4(ModelViewSet):
     queryset = Todo.objects.all()
     serializer_class = TodoSerializer
     renderer_classes = [JSONRenderer, BrowsableAPIRenderer]
