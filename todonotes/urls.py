@@ -16,16 +16,33 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from L1_work_with_user_app.views import MyUserModelViewSet
-from L3_serializers.views import ProjectViewSet, TodoViewSet
+from L1_work_with_user_app.views import (
+    MyUserViewSet, 
+    MyUserViewSet2,
+    MyUserListAndUpdateView,
+    MyUserListAndUpdateView2,
+)
+
+from L3_serializers.views import (
+    ProjectViewSetLes1,
+    ProjectViewSetLes4,
+    TodoViewSetLes1,
+    TodoViewSetLes4,
+)
 
 router = DefaultRouter()
-router.register('users', MyUserModelViewSet)
-router.register('projects', ProjectViewSet)
-router.register('todos', TodoViewSet)
+router.register('users', MyUserViewSet, basename='myuser_les1')
+router.register('users_les4', MyUserViewSet2, basename='myuser')
+router.register('projects_les1', ProjectViewSetLes1, basename='project_les1')
+router.register('projects_les4', ProjectViewSetLes4, basename='project_les4')
+router.register('todos_les1', TodoViewSetLes1, basename='todo_les1')
+router.register('todos_les4', TodoViewSetLes4, basename='todo_les4')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
     path('api/', include(router.urls)),
+    path('api/userss/<int:pk>', MyUserListAndUpdateView.as_view()), 
+    path('api/userss/', MyUserListAndUpdateView.as_view()),
+    path('api/users_l_r', MyUserListAndUpdateView2.as_view()),
 ]

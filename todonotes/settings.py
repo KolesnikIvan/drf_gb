@@ -131,9 +131,15 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# REST_FRAMEWORK = {
+AUTH_USER_MODEL = 'L1_work_with_user_app.MyUser'
+
+REST_FRAMEWORK = {
 #     'DEFAULT_RENDERER_CLASSES':[
 #         # 'rest_framework.renderers.JSONRenderer',
 #         'rest_framework.renderers.BrowsableAPIRenderer',
-#     ]
-# }
+#     ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 2,
+}
+# по п.1 задания 4 установлена пагинация, 
+# но не 100, а 2 элемента на страницу, т.к. нет столько
