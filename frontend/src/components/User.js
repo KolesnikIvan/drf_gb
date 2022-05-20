@@ -1,42 +1,26 @@
 import React from 'react';
 
-const UserItem = ({user}) => {
+const UserItem = ({item}) => {
     return(
         <tr>
-            <td>
-                {user.username}
-            </td>
-            <td>
-                {user.firstname}
-            </td>
-            <td>
-                {user.lastname}
-            </td>
-            <td>
-                {user.email}
-            </td>
+            <td>{item.username}</td>
+            <td>{item.firstname}</td>
+            <td>{item.lastname}</td>
+            <td>{item.email}</td>
         </tr>
     )
 }
 
-const UserList = ({users}) => {
+const UserList = ({items}) => {
     return (
         <table>
-            <th>
-                Usser name
-            </th>
-            <th>
-                1st_name
-            </th>
-            <th>
-                Last name
-            </th>
-            <th>
-                electronic mail
-            </th>
-            {/* выше формируется шапка таблицы, 
-            а далее строки последовательно из списка пользователей */}
-            {users.map((user) => <UserItem user={user}/>)}
+            <tr>
+                <th>Usser name</th>
+                <th>1st_name</th>
+                <th>Last name</th>
+                <th>electronic mail</th>
+            </tr>
+            {items.map((item) => <UserItem item={item}/>)}
         </table>
     )
 }
