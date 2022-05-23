@@ -22,6 +22,7 @@ from L1_work_with_user_app.views import (
     MyUserListAndUpdateView,
     MyUserListAndUpdateView2,
 )
+from rest_framework.authtoken import views
 
 from L3_serializers.views import (
     ProjectViewSetLes1,
@@ -45,4 +46,5 @@ urlpatterns = [
     path('api/userss/<int:pk>', MyUserListAndUpdateView.as_view()), 
     path('api/userss/', MyUserListAndUpdateView.as_view()),
     path('api/users_l_r', MyUserListAndUpdateView2.as_view()),
+    path('api-token-auth/', views.obtain_auth_token)
 ]

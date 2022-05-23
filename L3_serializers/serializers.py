@@ -11,7 +11,8 @@ class ProjectSerializer(ModelSerializer):
 
     class Meta:
         model = Project
-        fields = '__all__'
+        # fields = '__all__'
+        fields = ['uid', 'name', 'link_to_repo', 'users']
         # extra_kwargs = {'url': {'view_name': 'project-detail', 'lookup_field': 'pk'}}
 
 
@@ -20,5 +21,6 @@ class TodoSerializer(ModelSerializer):
 
     class Meta:
         model = Todo
-        fields = '__all__'
+        # fields = '__all__'
+        fields = ['uid', 'project', 'text', 'author']
         

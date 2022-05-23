@@ -6,7 +6,7 @@ const ProjectItem = ({project}) => {
             <td>{project.uid}</td>
             <td>{project.name}</td>
             <td>{project.link_to_repo}</td>
-            <td>{project.users}</td>
+            {/* <td>{project.users}</td> */}
         </tr>
     )
 }
@@ -20,7 +20,7 @@ const ProjectList = ({projects}) => {
                 <th>LINK_to_project</th>
                 <th>project_USERS</th>
             </tr>
-            {projects.map((project)=><ProjectItem project={project}/>)}
+            {projects.map((project) => <ProjectItem project={project}/>)}
         </table>
     )
 }

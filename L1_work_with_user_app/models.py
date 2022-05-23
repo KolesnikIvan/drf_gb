@@ -11,6 +11,7 @@ class MyUser(AbstractUser):
     firstname = models.CharField(max_length=64)
     lastname = models.CharField(max_length=64)
     # параметер unique=True делает атрибут email уникальным
-    email = models.CharField(max_length=64, unique=True)
+    # email = models.CharField(max_length=64, unique=True)
+    email = models.CharField(max_length=64)
     position = models.CharField(max_length=32, default='specialist')
     
