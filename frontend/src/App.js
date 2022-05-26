@@ -9,6 +9,7 @@ import HMenu from './components/Menu.js'
 import Footer from './components/Footer.js'
 import {HashRouter, Route, Link, Switch, Redirect, BrowserRouter} from 'react-router-dom'
 import LoginForm from './components/AuthorizationForm.js'
+import Cookies from 'universal-cookie'
 
 import axios from 'axios'
 
@@ -26,17 +27,51 @@ class App extends React.Component{
     super(props)
     this.state = {'users': [],
     'todos':[],
-    'projects':[]
+    'projects':[],
+    'token':'',
     }
   }
+
+  set_token(token){
+    const cookies = new Cookies()
+    cookies.set('token', token)
+    this.setState({'token': token}, ()=>this.load_data_fr_Met())
+  }
+
+  get_token_from_storage(){
+    const cookies = new Cookies()
+    const token = cookies.get('token')
+    this.setState({'token': token}, ()=>this.load_data_fr_Met())
+  }
+
+  is_authenticated(){
+    console.log(this.state.token)
+    return this.state.token != ''
+  }
+
+  logout(){
+    this.set_token('')
+  }
+
 
   get_token(username, password){
     axios.post('http://127.0.0.1:8000/api-token-auth/', {username: username, password: password})
     .then(response=>{
       console.log(response.data)
-    }).catch(error=>alert('Wrong login or pass.'))
+      this.set_token(response.data['token'])
+    }).catch(error=>alert('Wrong login or pass'))
   }
   
+  get_headers(){
+    let headers = {
+      'Content-Type': 'application/json'
+    }
+    if (this.is_authenticated()){
+      headers['Authorization'] = 'Token' + this.state.token
+    }
+    console.log(headers)
+    return headers
+  }
   load_data_fr_Net() {    
     // https://www.storyblok.com/tp/how-to-send-multiple-requests-using-axios
     const requestUsers = axios.get('http://127.0.0.1:8000/api/users/')
@@ -69,23 +104,22 @@ class App extends React.Component{
 
   load_data_fr_Met(){
     // реализация процедуры по методичке
-    axios.get('http://127.0.0.1:8000/api/users')
+    const headers = this.get_headers()
+    axios.get('http://127.0.0.1:8000/api/users', {headers})
       .then(response => {
         this.setState({users: response.data})
       })
       .catch(error => console.log(error))
       
-    axios.get('http://127.0.0.1:8000/api/projects_les4')
+    axios.get('http://127.0.0.1:8000/api/projects_les4', {headers})
       .then(response => {
         this.setState({projects: response.data})
       })
       .catch(error => console.log(error))
       
-    axios.get('http://127.0.0.1:8000/api/todos_les4')
+    axios.get('http://127.0.0.1:8000/api/todos_les4', {headers})
       .then(response => {
         this.setState({todos: response.data})
-        console.log(this.state)  //здесь вижу this.state
-        console.log(this.state.users)
       })
       .catch(error => console.log(error))
           
@@ -94,7 +128,8 @@ class App extends React.Component{
   
   // componentDidMount - метод, выполняется при отображении, содержит логику этого процесса
   componentDidMount() {
-    this.load_data_fr_Met()
+    this.get_token_from_storage()
+    // this.load_data_fr_Met()
   }
   
   
@@ -118,8 +153,11 @@ class App extends React.Component{
               <li>
                 <Link to='/todos'>Toddos</Link>
               </li>
-              <li>
+              {/* <li>
                 <Link to='/login'>Login</Link>
+              </li> */}
+              <li>
+                {this.is_authenticated() ? <button onClick={()=>this.logout()}>Log_OUT</button> : <Link to='/login'>Log_IN</Link>}
               </li>
             </ul>
           </nav>

@@ -4,9 +4,9 @@ const TodoItem = ({todo}) => {
     return(
         <tr>
             <td>{todo.uid}</td>
-            <td>{todo.project}</td>
+            <td>{todo.project.uid}</td>
             <td>{todo.text}</td>
-            <td>{todo.author}</td>
+            <td>{todo.author.name}</td>
         </tr>
     )
 }

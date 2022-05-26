@@ -5,7 +5,7 @@ const ProjectItem = ({project}) => {
         <tr>
             <td>{project.uid}</td>
             <td>{project.name}</td>
-            <td>{project.link_to_repo}</td>
+            {/* <td>{project.link_to_repo}</td> */}
             {/* <td>{project.users}</td> */}
         </tr>
     )
@@ -14,12 +14,12 @@ const ProjectItem = ({project}) => {
 const ProjectList = ({projects}) => {
     return (
         <table>
-            <tr>
+            {/* <tr> */}
                 <th>project_ID</th>
                 <th>project_NAME</th>
                 <th>LINK_to_project</th>
-                <th>project_USERS</th>
-            </tr>
+                {/* <th>project_USERS</th> */}
+            {/* </tr> */}
             {projects.map((project) => <ProjectItem project={project}/>)}
         </table>
     )

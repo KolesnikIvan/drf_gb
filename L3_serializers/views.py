@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework.viewsets import ModelViewSet
 from .serializers import ProjectSerializer, TodoSerializer
 from .models import Project, Todo
-from rest_framework import mixins, viewsets
+from rest_framework import mixins, viewsets, permissions
 from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer
 from rest_framework.pagination import LimitOffsetPagination
 # from rest_framework.generics import GenericAPIView
@@ -27,7 +27,7 @@ class ProjectViewSetLes4(mixins.CreateModelMixin,
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
     renderer_classes = [JSONRenderer, BrowsableAPIRenderer]
-    pagination_class = ProjectPaginationClass
+    # pagination_class = ProjectPaginationClass
 
     def get_queryset(self):
         print('req_headers', self.request.headers)
@@ -47,7 +47,8 @@ class TodoViewSetLes4(ModelViewSet):
     queryset = Todo.objects.all()
     serializer_class = TodoSerializer
     renderer_classes = [JSONRenderer, BrowsableAPIRenderer]
-    pagination_class = TodoPagination
+    # permission_classes = [permissions.IsAuthenticated]
+    # pagination_class = TodoPagination
     
     def destroy(self, pk):
         # при удалении меняю одно bool поле
