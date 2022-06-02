@@ -3,7 +3,7 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework import viewsets, mixins
 from rest_framework.renderers import JSONRenderer
 from .models import MyUser
-from .serializers import MyUserModelSerializer
+from .serializers import MyUserModelSerializer, MyUserSerializerLes9IsSuperUser
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.generics import (
@@ -18,6 +18,13 @@ from rest_framework.generics import (
 class MyUserViewSet(ModelViewSet):
     queryset = MyUser.objects.all()
     serializer_class = MyUserModelSerializer
+
+    def get_serializer_class(self):
+        if self.request.version == '0.2':
+            # 9th lesson task, add other serializer in the other version
+            return MyUserSerializerLes9IsSuperUser
+        else:
+            return MyUserModelSerializer
     
 
 class MyUserViewSet2(mixins.RetrieveModelMixin,

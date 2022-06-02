@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'L3_serializers',
     'corsheaders',
     'rest_framework.authtoken',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -148,6 +149,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.BasicAuthentication',
     ],
+    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.URLPathVersioning',
 }
 # по п.1 задания 4 установлена пагинация, 
 # но не 100, а 2 элемента на страницу, т.к. нет столько
