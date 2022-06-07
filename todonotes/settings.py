@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'graphene_django',
     'L1_work_with_user_app',
     'L3_serializers',
     'corsheaders',
@@ -153,3 +154,7 @@ REST_FRAMEWORK = {
 }
 # по п.1 задания 4 установлена пагинация, 
 # но не 100, а 2 элемента на страницу, т.к. нет столько
+
+GRAPHENE = {
+    "SCHEMA": 'todonotes.schema.schema'
+}

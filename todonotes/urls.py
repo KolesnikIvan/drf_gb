@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include, re_path
+from graphql import GraphQLField
 from rest_framework.routers import DefaultRouter
 from rest_framework import permissions
 from L1_work_with_user_app.views import (
@@ -33,7 +34,7 @@ from L3_serializers.views import (
 )
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
-
+from graphene_django.views import GraphQLView
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -67,4 +68,5 @@ urlpatterns = [
     re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema_json'),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+    path('graphql/', GraphQLView.as_view(graphiql=True)),
 ]
