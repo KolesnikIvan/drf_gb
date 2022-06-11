@@ -5,6 +5,8 @@ import UserList from './components/User.js'
 import TodoList from './components/Todo.js'
 import ProjectList from './components/Project.js'
 import ProjectTodoList from './components/ProjectTodo.js'
+import TodoCreateForm from './components/TodoCreateForm.js'
+import ProjectCreateForm from './components/ProjectCreateForm.js'
 import HMenu from './components/Menu.js'
 import Footer from './components/Footer.js'
 import {HashRouter, Route, Link, Switch, Redirect, BrowserRouter} from 'react-router-dom'
@@ -126,7 +128,49 @@ class App extends React.Component{
     console.log(this.state) //здесь ничего не вижу
   }
   
-  // componentDidMount - метод, выполняется при отображении, содержит логику этого процесса
+  deleteTodo(uid){
+    const headers = this.get_headers()
+    axios.delete('htto://127.0.0.1:8000/api/todos_les1/${uid}', {headers, headers})
+    .then(response => {
+      this.setState({todos: this.state.todos.filter((item)=>item.uid !== uid)})
+    })
+    .catch(error => console.log(error))
+  }
+
+  deleteProject(uid){
+    const headers = this.get_headers()
+    axios.delete('http://127.0.0.1:8000/api/projects_les1')
+    .then(response=>{
+      this.setState({projects: this.state.projects.filter((item)=>item.uid !== uid)})
+    })
+    .catch(error=> console.log(error))
+  }
+
+  createTodo(project, text){
+    const headers = this.get_headers()
+    const data = {project:project, text:text}
+    axios.post('http://127.0.0.1:8000/api/todos_les_4/', data, {headers, headers})
+    .then(response=>{
+      let new_todo = response.data
+      const project = this.state.projects.filter((item)=>item.uid === new_todo.project)[0]
+      new_todo.project = project
+      this.setState({todos: [...this.state.todos, new_todo]})
+    })
+    .catch(error => console.log(error))
+  }
+
+  createProject(name, link_to_repo){
+    const headers = this.get_headers()
+    const data = {name:name, link_to_repo:link_to_repo}
+    axios.post('http://127.0.0.1:8000/api/projects_les1/', data, {headers, headers})
+    .then(response=>{
+      let new_project = response.data
+      this.setState({projects: [...this.state.project, new_project]})
+    })
+    .catch(error => console.log(error))
+  }
+
+  // componentDidMount - метод выполняется при отображении, содержит логику этого процесса
   componentDidMount() {
     this.get_token_from_storage()
     // this.load_data_fr_Met()
@@ -136,7 +180,7 @@ class App extends React.Component{
   // render вызывает UserList, рисующий users, которые хранятся в состоянии и инициализируются предыдующим методом
   render () {
     return(
-      <div>
+      <div className="App">
         {/* <HMenu/> */}
         {/* <UserList items={this.state.users} /> */}
         {/* <ProjectList projects={this.state.projects} /> */}
@@ -163,10 +207,12 @@ class App extends React.Component{
           </nav>
           <Switch>
             <Route exact path='/' component={()=> <UserList users={this.state.users} /> } />
-            <Route exact path='/projects' componenet={()=> <ProjectList projects={this.state.projects} /> } />
-            <Route exact path='/todos' component={()=> <TodoList todos={this.state.todos} /> } />  
-            <Route exat path='/login' component={()=> <LoginForm get_token={(username, password)=>this.get_token(username, password)}/>} />
+            <Route exact path='/projects' componenet={()=> <ProjectList projects={this.state.projects} deleteProject={(uid)=>this.deleteProject(uid)}/> } />
+            <Route exact path='/todos' component={()=> <TodoList todos={this.state.todos} deleteTodo={(uid)=>this.deleteTodo(uid)}/> } />  
+            <Route exact path='/login' component={()=> <LoginForm get_token={(username, password)=>this.get_token(username, password)}/>} />
             <Route exact path='/project/:id' component={()=> <ProjectTodoList todos={this.state.todos} /> } />
+            <Route exact path='/todos/create' component={() => <TodoCreateForm projects={this.state.projects} createTodo={(project, text)=> this.createTodo(project, text)}/> }/>
+            <Route exact path='/projects/create' component={() => <ProjectCreateForm createProject={(name, link_to_repo)=> this.createProject(name, link_to_repo)}/> }/>
             <Redirect from='/users' to='/' />
             <Route component={NotFound404} />
           </Switch>
