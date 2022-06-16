@@ -1,0 +1,19 @@
+version: '3.1'  # version of docker-compose.yml file
+
+services:
+  db:
+    image: postgres:13.1
+    privileged: true
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: geekbrains
+      POSTGRES_DB: todonotes
+  adminer:
+    image: adminer:4.7.8-standalone
+    restart: always
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
